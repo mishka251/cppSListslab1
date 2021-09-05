@@ -1,41 +1,41 @@
 #include <iostream>
 
-struct List {
-    int value;
-    List *next = nullptr;
+struct List { //создание структуры для списка
+    int value; // название поля структуры
+    List *next = nullptr; // у элемента списка есть ссылка на следующий элемент
 };
 
-List *list;
+List *list; // создание указателя на наш список
 
-void initList() {
+void initList() { //создание функции, которая будет считывать список с клавиатуры
     int n;
     std::cout << "elements count" << std::endl;
     std::cin >> n;
     int a;
-    list = new List();
-    List *last = list;
+    list = new List(); // создаём первый элемент списка
+    List *last = list; // указатель на последний элемент списка
     for (int i = 0; i < n; ++i) {
         std::cout << "item " << i << " = ";
         std::cin >> a;
 //        std::cout << std::endl;
-        last->value = a;
-        if (i < n - 1) {
-            last->next = new List();
-            last = last->next;
+        last->value = a; // в последний элем списка записываем то что ввели с клав
+        if (i < n - 1) { // проверка что нужно добавить еще один элем в список
+            last->next = new List(); // создание элемента списка который будет идти за последним
+            last = last->next; // в переменную последнего элемента записываем элемент который следует за последним
         }
     }
 }
 
-void printList() {
+void printList() { // выводит список на экран
     List *last = list;
-    while (last != nullptr) {
-        std::cout << last->value << "  ";
-        last = last->next;
+    while (last != nullptr) { // пока последний элемент не равен указателю на пустое место
+        std::cout << last->value << "  "; // выводим  значение последнего элемента
+        last = last->next; // последний элемент равен элементу, который следует за ним
     }
     std::cout << std::endl;
 }
 
-void insertIntList() {
+void insertIntList() { // берет с клави два элемента и перед каждым вхождением е в список вставляет е1
     int e, e1;
     std::cout << "e?" << std::endl;
     std::cin >> e;
@@ -45,28 +45,29 @@ void insertIntList() {
 
     List *last = list;
 
-    if (list->value == e) {
-        List *next = list;
-        list = new List();
-        list->value = e1;
-        list->next = next;
+    if (list->value == e) { // если первый элемент списка =  е
+        List *next = list; // указатель на начало списка
+        list = new List(); // создание нового первого ээлемента списка
+        list->value = e1;// записываем в первый элемент е1
+        list->next = next;  // за новым первым элементом записываем тот, что был до этого
     }
 
-    while (last != nullptr && last->next != nullptr) {
-        if (last->next->value == e) {
-            List *next = last->next;
-            last->next = new List();
-            last->next->value = e1;
-            last->next->next = next;
-            last = next;
-        } else {
-            last = last->next;
+    while (last != nullptr && last->next != nullptr) { // пока последний не равен указателю на пустое место
+        // и следующий за ним не равен указателю на пустое место
+        if (last->next->value == e) { // если у элемента следующ за последним значение = е
+            List *next = last->next; // запоминаем ссылку на следующий элемент
+            last->next = new List(); // создаём новый следующий элемент
+            last->next->value = e1; // в новый след элемент записываем е1
+            last->next->next = next; // в новый след элемент следующим записываем тот который был следующим до этого
+            last = next; // переход к след  элементу
+        } else { //
+            last = last->next;// иначе переходим к следующему
         }
     }
 
 }
 
-int main() {
+int main() { // вызов функций
     initList();
     printList();
     insertIntList();
